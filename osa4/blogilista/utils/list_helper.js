@@ -10,6 +10,7 @@ const totalLikes = (blogs) => {
   return total;
 }
 
+
 module.exports = {
   dummy,
   totalLikes
