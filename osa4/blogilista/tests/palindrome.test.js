@@ -71,6 +71,31 @@ test('field named id', async () => {
     expect(response.body[0].id).toBeDefined()
 })
 
+test('can add a blog', async () => {
+    const newBlog = {
+        title: 'testiotsikko',
+        author: 'test',
+        url: 'www.jrdohrdo.com',
+        likes: 0
+      }
+    
+      await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+    
+    
+      const blogsAtEnd = await helper.blogsInDb()
+      expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+    
+      const titles = blogsAtEnd.map(b => b.titile)
+      expect(titles).toContain(
+        'testiotsikko'
+      )
+})
+
+
 afterAll(() => {
 mongoose.connection.close()
 })
