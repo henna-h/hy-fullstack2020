@@ -14,10 +14,9 @@ const App = () => {
     { name: 'Ada Lovelace', number: '39-44-5323523' },
     { name: 'Dan Abramov', number: '12-43-234345' },
     { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ]) 
+  ])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
- // const [names, setNames] = useState([])
   const [showAll, setShowAll] = useState('')
   const [message, setMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
@@ -44,7 +43,7 @@ const App = () => {
           name: newName,
           number: newNumber
         }
-        //MUUTA PERSONS/ID
+    
         const id = personInThePhonebook[0].id
         personsService
         .update(id, updatedPerson)
@@ -59,7 +58,7 @@ const App = () => {
         });
 
       }
-      
+
     } else {
       const personObject = {
         name: newName,
@@ -69,7 +68,7 @@ const App = () => {
       axios
       .post('http://localhost:3001/persons', personObject)
       .then(response => {
-  
+
         setPersons(persons.concat(personObject))
         setNewName('')
         setNewNumber('')
@@ -99,7 +98,7 @@ const App = () => {
   const handleDelete = (id, deletedName) => {
     console.log(id)
     console.log(deletedName)
- 
+
     const wantToDelete = window.confirm('Delete ' + deletedName +  '?')
 
     if(wantToDelete){
@@ -113,7 +112,7 @@ const App = () => {
         }, 5000)
       })
     }
-    
+
   }
 
   const personsToShow = persons.filter(person => { return person.name.toLowerCase().includes(showAll.toLowerCase())})
