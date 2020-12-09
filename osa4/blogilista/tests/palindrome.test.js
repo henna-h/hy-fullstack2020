@@ -42,6 +42,7 @@ const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const { totalLikes } = require('../utils/list_helper')
 
 
 beforeEach(async () => {
@@ -93,6 +94,22 @@ test('can add a blog', async () => {
       expect(titles).toContain(
         'testiotsikko'
       )
+})
+
+test('if likes not given value, likes set to 0', async () => {
+
+    const newBlog = {
+        title: 'testiotsikko',
+        author: 'test',
+        url: 'www.jrdohrdo.com'
+    }
+
+    const response = await api
+        .post('/api/blogs')
+        .send(newBlog)
+
+    expect(response.body.likes).toEqual(0)
+
 })
 
 
