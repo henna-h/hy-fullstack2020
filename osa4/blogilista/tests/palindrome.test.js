@@ -129,6 +129,57 @@ test('if blog doesnt have title and url, return 400', async () => {
         expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
 })
 
+describe('specific blog', () => {
+
+    test('succeeds with a valid id', async () => {
+      const blogsAtStart = await helper.blogsInDb()
+
+      const blogToView = blogsAtStart[0]
+
+      const resultBlog = await api
+        .get(`/api/blogs/${blogToView.id}`)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+      
+      const processedBlogToView = JSON.parse(JSON.stringify(blogToView))
+
+      expect(resultBlog.body).toEqual(processedBlogToView)
+    })
+
+    test('fails with statuscode 404 if blog does not exist', async () => {
+      const validNonexistingId = await helper.nonExistingId()
+
+      console.log(validNonexistingId)
+
+      await api
+        .get(`/api/blogs/${validNonexistingId}`)
+        .expect(404)
+    })
+
+    describe('deletion of a blog', () => {
+        test('succeeds with status code 204 if id is valid', async () => {
+        const blogsAtStart = await helper.blogsInDb()
+        const blogToDelete = blogsAtStart[0]
+
+        await api
+            .delete(`/api/blogs/${blogToDelete.id}`)
+            .expect(204)
+
+        const blogsAtEnd = await helper.blogsInDb()
+
+        expect(blogsAtEnd).toHaveLength(
+            helper.initialBlogs.length - 1
+        )
+
+        const urls = blogsAtEnd.map(b => b.url)
+
+        expect(urls).not.toContain(blogToDelete.url)
+    })
+    })
+
+})
+
+
 
 afterAll(() => {
 mongoose.connection.close()
