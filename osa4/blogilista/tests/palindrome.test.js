@@ -112,6 +112,23 @@ test('if likes not given value, likes set to 0', async () => {
 
 })
 
+//4.12
+test('if blog doesnt have title and url, return 400', async () => {
+    const newBlog = {
+        author: 'test',
+        likes: 5
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+        expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+})
+
 
 afterAll(() => {
 mongoose.connection.close()
