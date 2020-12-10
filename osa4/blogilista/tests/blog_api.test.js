@@ -73,11 +73,15 @@ test('field named id', async () => {
 })
 
 test('can add a blog', async () => {
+
+    const user = helper.usersInDb[0]
+
     const newBlog = {
         title: 'testiotsikko',
         author: 'test',
         url: 'www.jrdohrdo.com',
-        likes: 0
+        likes: 0,
+        user: user._id
       }
     
       await api
@@ -156,6 +160,7 @@ describe('a specific blog', () => {
         .expect(404)
     })
 
+    //FAILS
     test('can edit a blog', async () => {
         const blogsAtStart = helper.initialBlogs
         const blogToEdit = blogsAtStart[0]
