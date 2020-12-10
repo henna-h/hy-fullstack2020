@@ -33,6 +33,11 @@ describe('total likes', () => {
         expect(result).toBe(36)
     })
 
+    test('returns most liked blog', () => {
+        const favBlog = listHelper.favoriteBlog(listWithManyBlogs)
+        expect(favBlog).toEqual(listWithManyBlogs[2])
+    })
+
   })
 
 
@@ -42,7 +47,9 @@ const helper = require('./test_helper')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
-const { totalLikes } = require('../utils/list_helper')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+const User = require('../models/user')
 
 
 beforeEach(async () => {
@@ -51,6 +58,18 @@ beforeEach(async () => {
     await blogObject.save()
     blogObject = new Blog(helper.initialBlogs[1])
     await blogObject.save()
+
+    await User.deleteMany({})
+    const passwordHash = await bcrypt.hash('salasana', 10)
+    const user = new User({ username: 'root', passwordHash })
+
+    await user.save()
+
+    globalThis.user = user
+
+    globalThis.token = user.token
+   // const token = jwr.sign(user, process.env.SECRET_KEY)
+
 })
 
 test('blogs are returned as json', async () => {
@@ -74,18 +93,17 @@ test('field named id', async () => {
 
 test('can add a blog', async () => {
 
-    const user = helper.usersInDb[0]
-
     const newBlog = {
         title: 'testiotsikko',
         author: 'test',
         url: 'www.jrdohrdo.com',
         likes: 0,
-        user: user._id
-      }
+        user: globalThis.user
+    }
     
       await api
         .post('/api/blogs')
+        .set( 'Authorization', 'bearer ${globalThis.token}')
         .send(newBlog)
         .expect(200)
         .expect('Content-Type', /application\/json/)
@@ -153,7 +171,7 @@ describe('a specific blog', () => {
     test('fails with statuscode 404 if blog does not exist', async () => {
       const validNonexistingId = await helper.nonExistingId()
 
-      console.log(validNonexistingId)
+      //console.log(validNonexistingId)
 
       await api
         .get(`/api/blogs/${validNonexistingId}`)
