@@ -129,7 +129,7 @@ test('if blog doesnt have title and url, return 400', async () => {
         expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
 })
 
-describe('specific blog', () => {
+describe('a specific blog', () => {
 
     test('succeeds with a valid id', async () => {
       const blogsAtStart = await helper.blogsInDb()
@@ -156,25 +156,44 @@ describe('specific blog', () => {
         .expect(404)
     })
 
+    test('can edit a blog', async () => {
+        const blogsAtStart = helper.initialBlogs
+        const blogToEdit = blogsAtStart[0]
+
+        const editedBlog = {
+            ...blogToEdit.title,
+            likes: 5
+        }
+
+        const blog = await api
+            .put(`/api/blogs/${blogToEdit.id}`)
+            .send(editedBlog)
+            .expect(200)
+            .expect('Content-Type', /application\/json/)
+
+        expect(blog.body.likes).toEqual(5)
+    })
+
+
     describe('deletion of a blog', () => {
         test('succeeds with status code 204 if id is valid', async () => {
-        const blogsAtStart = await helper.blogsInDb()
-        const blogToDelete = blogsAtStart[0]
+            const blogsAtStart = await helper.blogsInDb()
+            const blogToDelete = blogsAtStart[0]
 
-        await api
-            .delete(`/api/blogs/${blogToDelete.id}`)
-            .expect(204)
+            await api
+                .delete(`/api/blogs/${blogToDelete.id}`)
+                .expect(204)
 
-        const blogsAtEnd = await helper.blogsInDb()
+            const blogsAtEnd = await helper.blogsInDb()
 
-        expect(blogsAtEnd).toHaveLength(
-            helper.initialBlogs.length - 1
-        )
+            expect(blogsAtEnd).toHaveLength(
+                helper.initialBlogs.length - 1
+            )
 
-        const urls = blogsAtEnd.map(b => b.url)
+            const urls = blogsAtEnd.map(b => b.url)
 
-        expect(urls).not.toContain(blogToDelete.url)
-    })
+            expect(urls).not.toContain(blogToDelete.url)
+        })
     })
 
 })
