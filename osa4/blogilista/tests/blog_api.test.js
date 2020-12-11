@@ -8,6 +8,9 @@ test('dummy returns one', () => {
 })
 
 describe('total likes', () => {
+
+    const listWithNoBlogs=[]
+
     const listWithOneBlog = [
       {
         _id: '5a422aa71b54a676234d17f8',
@@ -36,6 +39,19 @@ describe('total likes', () => {
     test('returns most liked blog', () => {
         const favBlog = listHelper.favoriteBlog(listWithManyBlogs)
         expect(favBlog).toEqual(listWithManyBlogs[2])
+    })
+    /*
+    test('returns author with most blogs', () => {
+        const mostBlogs = listHelper.mostBlogs(listWithManyBlogs)
+        shouldEqual = {author: listWithManyBlogs[2].author, blogs: listWithManyBlogs[2].blogs}
+        expect(mostBlogs).toEqual(shouldEqual)
+    })
+    */
+
+    test('returns author with most likes', () => {
+        const favBlog = listHelper.mostLikes(listWithManyBlogs)
+        shouldEqual = {author: listWithManyBlogs[2].author, likes: listWithManyBlogs[2].likes}
+        expect(favBlog).toEqual(shouldEqual)
     })
 
   })
