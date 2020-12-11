@@ -7,7 +7,7 @@ test('dummy returns one', () => {
   expect(result).toBe(1)
 })
 
-describe('total likes', () => {
+describe('total likes and blogs', () => {
 
     const listWithNoBlogs=[]
 
@@ -40,13 +40,13 @@ describe('total likes', () => {
         const favBlog = listHelper.favoriteBlog(listWithManyBlogs)
         expect(favBlog).toEqual(listWithManyBlogs[2])
     })
-    /*
+
     test('returns author with most blogs', () => {
         const mostBlogs = listHelper.mostBlogs(listWithManyBlogs)
-        shouldEqual = {author: listWithManyBlogs[2].author, blogs: listWithManyBlogs[2].blogs}
+        shouldEqual = {author: 'Robert C. Martin', blogs: 3}
         expect(mostBlogs).toEqual(shouldEqual)
     })
-    */
+
 
     test('returns author with most likes', () => {
         const favBlog = listHelper.mostLikes(listWithManyBlogs)

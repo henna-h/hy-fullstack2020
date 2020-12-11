@@ -27,17 +27,16 @@ const favoriteBlog = (blogs) => {
   return favBlog
 }
 
-/*
 const mostBlogs = (blogs) => {
 
   if(blogs.length < 1){
     return null;
   }
 
-  const authors = []
+  var authors = []
 
   for(var i = 0; i < blogs.length; i++){
-    authors.add(blogs.author)
+    authors.push(blogs[i].author)
   }
 
   var authorWithMostBlogs = _.head(_(authors)
@@ -45,14 +44,18 @@ const mostBlogs = (blogs) => {
   .entries()
   .maxBy(_.last));
 
-  
-const numberOfBlogs = _.values(_.groupBy(authors)).map(a => ({name: authorWithMostBlogs, count: d.length}))
+  let numberOfBlogs = 0
 
-  //KESKEN
+  for(var i = 0; i < blogs.length; i++){
+    if(blogs[i].author === authorWithMostBlogs ){
+      numberOfBlogs++
+    }
+  }
+  
+  toBeReturned = {author: authorWithMostBlogs, blogs: numberOfBlogs}
 
   return toBeReturned
 }
-*/
 
 const mostLikes = (blogs) => {
 
@@ -69,6 +72,6 @@ module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  //mostBlogs, 
+  mostBlogs, 
   mostLikes
 }
