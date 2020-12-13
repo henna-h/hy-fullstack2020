@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react'
+<<<<<<< HEAD
+=======
+import axios from 'axios'
+>>>>>>> 7c7d4cff15363cbd7bc23e67d3e329c23b7d6885
 import personsService from './services/persons'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
@@ -13,9 +17,16 @@ const App = () => {
     { name: 'Ada Lovelace', number: '39-44-5323523' },
     { name: 'Dan Abramov', number: '12-43-234345' },
     { name: 'Mary Poppendieck', number: '39-23-6423122' }
+<<<<<<< HEAD
   ])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
+=======
+  ]) 
+  const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+ // const [names, setNames] = useState([])
+>>>>>>> 7c7d4cff15363cbd7bc23e67d3e329c23b7d6885
   const [showAll, setShowAll] = useState('')
   const [message, setMessage] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
@@ -23,8 +34,13 @@ const App = () => {
   useEffect(() => {
     personsService
       .getAll()
+<<<<<<< HEAD
       .then(initialPersons => {
         setPersons(initialPersons)
+=======
+      .then(response => {
+        setPersons(response.data)
+>>>>>>> 7c7d4cff15363cbd7bc23e67d3e329c23b7d6885
       })
   }, [])
 
@@ -42,6 +58,7 @@ const App = () => {
           name: newName,
           number: newNumber
         }
+<<<<<<< HEAD
     
         const id = personInThePhonebook[0].id
 
@@ -62,17 +79,43 @@ const App = () => {
 
       }
 
+=======
+        //MUUTA PERSONS/ID
+        const id = personInThePhonebook[0].id
+        personsService
+        .update(id, updatedPerson)
+        .then(() => {
+          setNewName('');
+          setNewNumber('');
+          window.location.reload(true);
+
+        })
+        .catch(() => {
+          setErrorMessage('Information of ' + personInThePhonebook[0].name + ' has already been deleted deleted from the server')
+        });
+
+      }
+      
+>>>>>>> 7c7d4cff15363cbd7bc23e67d3e329c23b7d6885
     } else {
       const personObject = {
         name: newName,
         number: newNumber
       }
 
+<<<<<<< HEAD
       personsService
       .create(personObject)
       .then(returnedPerson => {
   
         setPersons(persons.concat(returnedPerson))
+=======
+      axios
+      .post('http://localhost:3001/persons', personObject)
+      .then(response => {
+  
+        setPersons(persons.concat(personObject))
+>>>>>>> 7c7d4cff15363cbd7bc23e67d3e329c23b7d6885
         setNewName('')
         setNewNumber('')
         setMessage(newName + ' added to the phonebook')
@@ -80,11 +123,14 @@ const App = () => {
           setMessage(null)
         }, 5000)
       })
+<<<<<<< HEAD
       .catch(error => {
        const errorToShow = error.response.data
         console.log(errorToShow)
         setErrorMessage('Name needs to be longer than 3 characters and phonenumber needs to be longer than 5 numbers')
       });
+=======
+>>>>>>> 7c7d4cff15363cbd7bc23e67d3e329c23b7d6885
     }
   }
 
@@ -106,6 +152,7 @@ const App = () => {
   const handleDelete = (id, deletedName) => {
     console.log(id)
     console.log(deletedName)
+<<<<<<< HEAD
 
     const wantToDelete = window.confirm('Delete ' + deletedName +  '?')
 
@@ -113,6 +160,15 @@ const App = () => {
       personsService
       .remove(id)
       .then(() => {
+=======
+ 
+    const wantToDelete = window.confirm('Delete ' + deletedName +  '?')
+
+    if(wantToDelete){
+      axios
+      .delete('http://localhost:3001/persons/' + id)
+      .then(response => {
+>>>>>>> 7c7d4cff15363cbd7bc23e67d3e329c23b7d6885
         window.location.reload(true);
         setMessage(deletedName + ' deleted')
         setTimeout(() => {
@@ -120,7 +176,11 @@ const App = () => {
         }, 5000)
       })
     }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 7c7d4cff15363cbd7bc23e67d3e329c23b7d6885
   }
 
   const personsToShow = persons.filter(person => { return person.name.toLowerCase().includes(showAll.toLowerCase())})
@@ -138,4 +198,8 @@ const App = () => {
 
 }
 
+<<<<<<< HEAD
 export default App
+=======
+export default App
+>>>>>>> 7c7d4cff15363cbd7bc23e67d3e329c23b7d6885
