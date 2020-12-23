@@ -1,4 +1,13 @@
 const listHelper = require('../utils/list_helper')
+const mongoose = require('mongoose')
+const supertest = require('supertest')
+const helper = require('./test_helper')
+const app = require('../app')
+const api = supertest(app)
+const Blog = require('../models/blog')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+const User = require('../models/user')
 
 test('dummy returns one', () => {
   const blogs = []
@@ -56,18 +65,6 @@ describe('total likes and blogs', () => {
 
   })
 
-
-const mongoose = require('mongoose')
-const supertest = require('supertest')
-const helper = require('./test_helper')
-const app = require('../app')
-const api = supertest(app)
-const Blog = require('../models/blog')
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
-const User = require('../models/user')
-
-
 beforeEach(async () => {
     await Blog.deleteMany({})
     let blogObject = new Blog(helper.initialBlogs[0])
@@ -107,6 +104,7 @@ test('field named id', async () => {
     expect(response.body[0].id).toBeDefined()
 })
 
+//didn't complete excercise 4.22 so many of these fail
 test('can add a blog', async () => {
 
     const newBlog = {
@@ -150,7 +148,7 @@ test('if likes not given value, likes set to 0', async () => {
 
 })
 
-//4.12
+
 test('if blog doesnt have title and url, return 400', async () => {
     const newBlog = {
         author: 'test',
@@ -187,14 +185,11 @@ describe('a specific blog', () => {
     test('fails with statuscode 404 if blog does not exist', async () => {
       const validNonexistingId = await helper.nonExistingId()
 
-      //console.log(validNonexistingId)
-
       await api
         .get(`/api/blogs/${validNonexistingId}`)
         .expect(404)
     })
 
-    //FAILS
     test('can edit a blog', async () => {
         const blogsAtStart = helper.initialBlogs
         const blogToEdit = blogsAtStart[0]
