@@ -1,0 +1,3 @@
+[submodule "osa5/bloglist-frontend"]
+	path = osa5/bloglist-frontend
+	url = https://github.com/henna-h/hy-fullstack2020.git
