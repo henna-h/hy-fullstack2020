@@ -22,7 +22,7 @@ const AnecdoteList = () => {
           votes: anecdote.votes + 1
       }
       const updatedAnecdote = await anecdoteService.update(votedAnecdote)
-      dispatch(voteFor(anecdote.id))
+      dispatch(voteFor(anecdote))
       const text = "you voted " + "'" + anecdote.content + "'"
       dispatch(setNotification(text))
     }

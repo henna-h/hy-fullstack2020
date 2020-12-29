@@ -10,12 +10,6 @@ const asObject = (anecdote) => {
   }
 }
 
-export const voteFor = (id) => {
-  return {
-    type: 'VOTE',
-    data: { id }
-  }
-}
 
 const anecdoteReducer = (state = [], action) => {
   console.log('state now: ', state)
@@ -25,7 +19,7 @@ const anecdoteReducer = (state = [], action) => {
     case 'VOTE':
 
       const id = action.data.id
-      console.log(id)
+      console.log(action.data.id)
       const anecdoteToVote = state.find(a => a.id === id)
 
       const updatedAnecdote = {
@@ -49,10 +43,10 @@ const anecdoteReducer = (state = [], action) => {
 export const initializeAnecdotes = () => {
   return async dispatch => {
     const anecdotes = await anecdoteService.getAll()
-    return {
+    dispatch({
       type: 'INIT_ANECDOTES',
       data: anecdotes,
-    }
+    })
   }
 }
 
@@ -62,6 +56,16 @@ export const createAnecdote = (content) => {
     dispatch({
       type: 'NEW_ANECDOTE',
       data: newAnecdote
+    })
+  }
+}
+
+export const voteFor = (anecdote) => {
+  return async dispatch => {
+    const updatedAnecdote = await anecdoteService.update(anecdote)
+    dispatch ({
+      type: 'VOTE',
+      data:  anecdote
     })
   }
 }
