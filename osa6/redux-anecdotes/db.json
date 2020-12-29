@@ -1,0 +1,24 @@
+{
+  "anecdotes": [
+    {
+      "content": "bkjnlk",
+      "important": false,
+      "id": 1
+    },
+    {
+      "content": "hbnjmk",
+      "votes": 2,
+      "id": 2
+    },
+    {
+      "content": "gvhbjn",
+      "votes": 0,
+      "id": 3
+    },
+    {
+      "content": "gvhbjnkml",
+      "votes": 3,
+      "id": 4
+    }
+  ]
+}
