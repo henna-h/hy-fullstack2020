@@ -3,7 +3,8 @@
     {
       "content": "bkjnlk",
       "important": false,
-      "id": 1
+      "id": 1,
+      "votes": null
     },
     {
       "content": "hbnjmk",
@@ -12,7 +13,7 @@
     },
     {
       "content": "gvhbjn",
-      "votes": 0,
+      "votes": 4,
       "id": 3
     },
     {
@@ -62,7 +63,7 @@
     },
     {
       "content": "fefd",
-      "votes": 2,
+      "votes": 5,
       "id": 13
     },
     {
@@ -84,6 +85,16 @@
       "content": "hjbwdefwkr",
       "votes": 0,
       "id": 17
+    },
+    {
+      "content": "grehtytj",
+      "votes": 0,
+      "id": 18
+    },
+    {
+      "content": "lol",
+      "votes": 0,
+      "id": 19
     }
   ]
 }
