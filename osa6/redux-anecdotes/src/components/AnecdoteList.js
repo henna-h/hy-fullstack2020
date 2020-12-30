@@ -8,9 +8,6 @@ import anecdotes from '../services/anecdotes'
 
 const AnecdoteList = (props) => {
 
-    const dispatch = useDispatch()
-
-
     const vote = async (anecdote) => {
       const votedAnecdote = {
           ...anecdote,
@@ -41,9 +38,11 @@ const AnecdoteList = (props) => {
 
 const mapStateToProps = (state) => {
 
+    console.log(state.filter)
     return {
+        filter: state.filter,
         anecdotes: state.anecdotes
-            .filter(a => a.content.toLowerCase().includes(state.filter.filter.toLowerCase()))
+            .filter(a => a.content.toLowerCase().includes(state.filter.toString().toLowerCase()))
             .sort((a, b) => (b.votes - a.votes))
     }
 

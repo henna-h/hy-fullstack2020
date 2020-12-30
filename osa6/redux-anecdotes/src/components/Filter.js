@@ -10,7 +10,7 @@ const Filter = () => {
     // input-kentän arvo muuttujassa event.target.value
     const filterContent = event.target.value
     console.log(filterContent)
-    setFilter(filterContent)
+    dispatch(setFilter(filterContent))
   }
 
   const style = {
@@ -22,6 +22,10 @@ const Filter = () => {
       filter <input onChange={handleChange} />
     </div>
   )
+}
+
+const mapDispatchToProps = {
+    setFilter
 }
 
 export default Filter
