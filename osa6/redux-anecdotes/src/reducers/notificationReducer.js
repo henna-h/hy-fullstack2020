@@ -1,13 +1,14 @@
 const initialState = null
 
-//6.11 DOES NOT WORK
-export const setNotification = (text, timer) => {
+export const setNotification = (text, showTime) => {
     return async dispatch => {
         dispatch({
             type: 'SET_NOTIFICATION',
             data: {
                 text,
-                timer
+                timer: setTimeout(() => {
+                    dispatch(removeNotification())
+                }, showTime)
             }
         })
     }
