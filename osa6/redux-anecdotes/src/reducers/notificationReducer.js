@@ -1,19 +1,23 @@
-const initialState = {text: 'notification', timer: null}
+const initialState = null
 
 //6.11 DOES NOT WORK
-export const setNotification = (text) => {
-    return {
-        type: 'SET_NOTIFICATION',
-        data: {
-            text,
-            timer: setTimeout(() => {removeNotification()}, 5*1000)
-        }
+export const setNotification = (text, timer) => {
+    return async dispatch => {
+        dispatch({
+            type: 'SET_NOTIFICATION',
+            data: {
+                text,
+                timer
+            }
+        })
     }
 }
 
-const removeNotification = () => {
-    return {
-        type: 'REMOVE_NOTIFICATION'
+export const removeNotification = () => {
+    return async dispatch => {
+        dispatch({
+            type: 'REMOVE_NOTIFICATION'
+        })
     }
 }
 
@@ -22,7 +26,6 @@ const notificationReducer = (state = initialState, action) => {
     switch(action.type){
         case 'SET_NOTIFICATION':
             console.log(action.data.timer)
-            clearTimeout(action.data.timer)
             return action.data
         
         case 'REMOVE_NOTIFICATION':
