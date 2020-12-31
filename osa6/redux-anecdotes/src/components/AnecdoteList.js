@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { voteFor } from '../reducers/anecdoteReducer'
 import { setNotification } from '../reducers/notificationReducer'
-import anecdoteService from '../services/anecdotes'
 
 
 const AnecdoteList = (props) => {
@@ -13,12 +12,11 @@ const AnecdoteList = (props) => {
           votes: anecdote.votes + 1
       }
       
-      await anecdoteService.update(votedAnecdote)
       props.voteFor(anecdote)
       const text = "you voted '" + anecdote.content + "'"
       props.setNotification(text)
     }
-
+    console.log(props.anecdotes)
     return (
         <div>
             {props.anecdotes.sort((a, b) => (b.votes - a.votes)).map(anecdote =>

@@ -18,8 +18,8 @@ const update = async (object) => {
     return response.data
 }
   
-  export default {
+export default {
     getAll,
     createNew,
     update
-  }
+}
