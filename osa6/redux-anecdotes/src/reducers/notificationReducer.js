@@ -23,10 +23,14 @@ export const removeNotification = () => {
 }
 
 const notificationReducer = (state = initialState, action) => {
-    console.log(action)
+
     switch(action.type){
         case 'SET_NOTIFICATION':
             console.log(action.data.timer)
+
+            if(state !== null){
+                clearTimeout(state.timer)
+            }
             return action.data
         
         case 'REMOVE_NOTIFICATION':
