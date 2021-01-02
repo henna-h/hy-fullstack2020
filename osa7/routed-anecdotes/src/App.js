@@ -67,6 +67,12 @@ const CreateNew = (props) => {
   const info = useField('text')
   const history = useHistory()
 
+  const emptyFields = () => {
+    content.reset()
+    author.reset()
+    info.reset()
+  }
+
   const handleSubmit = (e) => {
 
     e.preventDefault()
@@ -78,7 +84,7 @@ const CreateNew = (props) => {
     })
 
     history.push('/')
-    props.setNotification("a new anecdote '" + content.value +"' created")
+    props.setNotification("a new anecdote '" + content.value + "' created")
     setTimeout(() => {
       props.setNotification(null)
     }, 10*1000)
@@ -91,18 +97,19 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' type={content.type} value={content.value} onChange={content.onChange} />
+          <input {...content} />
         </div>
         <div>
           author
-          <input name='author' type={author.type} value={author.value} onChange={author.onChange} />
+          <input {...author} />
         </div>
         <div>
           url for more info
-          <input name='info' type={info.type} value={info.value} onChange={info.onChange} />
+          <input {...info} />
         </div>
         <button>create</button>
       </form>
+      <button onClick={emptyFields}>reset</button>
     </div>
   )
 
