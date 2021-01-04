@@ -4,6 +4,7 @@ import Togglable from './Togglable'
 const Blog = ({ blog, user, deleteBlog, onLike }) => {
   console.log(user)
   console.log(blog.user.username)
+  console.log(blog.user)
 
   const blogRef = useRef()
 

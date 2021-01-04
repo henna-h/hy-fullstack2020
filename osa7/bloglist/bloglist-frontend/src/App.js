@@ -6,15 +6,17 @@ import BlogForm from './components/BlogForm'
 import Togglable from "./components/Togglable"
 import blogService from './services/blogs'
 import loginService from './services/login'
+import { connect } from 'react-redux'
+import { setSuccessNotification } from './reducers/successNotificationReducer'
+import { setErrorNotification } from './reducers/errorNotificationReducer'
 
-const App = () => {
+
+export const App = (props) => {
   const blogFormRef = useRef()
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [message, setMessage] = useState(null)
 
 
   useEffect(() => {
@@ -38,16 +40,10 @@ const App = () => {
       .create(blogObject)
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
-        setMessage('New blog added: ' + returnedBlog.title + ' by ' + returnedBlog.author)
-        setTimeout(() => {
-          setMessage(null)
-        }, 5000)
+        props.setSuccessNotification('New blog added: ' + returnedBlog.title + ' by ' + returnedBlog.author, 5000)
       })
       .catch = () => {
-        setErrorMessage('something went wrong')
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
+        props.setErrorNotification('something went wrong', 5000)
       }
   }
 
@@ -69,10 +65,7 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('wrong username or password')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      props.setErrorNotification('wrong username or password', 5000)
     }
   }
 
@@ -146,14 +139,14 @@ const App = () => {
     await blogService.remove(id)
     const blogsAfterRemove = blogs.filter(b => b.id !== id)
     setBlogs(blogsAfterRemove)
-    setMessage("Blog deleted!")
+    props.setSuccessNotification('Blog deleted!', 5000)
 
   }
 
 
   return (
     <div>
-      <Notification message={message} errorMessage={errorMessage}/>
+      <Notification />
 
       <h2>blogs</h2>
       {user !== null && loggedIn()}
@@ -166,4 +159,19 @@ const App = () => {
   )
 }
 
-export default App
+
+const mapStateToProps = (state) => {
+  return {
+    successNotification: state.successNotification,
+    errorNotification: state.errorNotification
+  }
+}
+
+const mapDispatchToProps = {
+  setSuccessNotification,
+  setErrorNotification
+}
+
+const connectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
+
+export default connectedApp
