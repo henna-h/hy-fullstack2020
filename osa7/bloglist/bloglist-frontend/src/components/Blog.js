@@ -3,8 +3,7 @@ import Togglable from './Togglable'
 
 const Blog = ({ blog, user, deleteBlog, onLike }) => {
   console.log(user)
-  console.log(blog.user.username)
-  console.log(blog.user)
+  console.log(blog)
 
   const blogRef = useRef()
 
@@ -47,7 +46,7 @@ const Blog = ({ blog, user, deleteBlog, onLike }) => {
         <br></br>
         likes {blog.likes} <button className="like" onClick={() => onLike(blog)}>like</button>
         <br></br>
-        {blog.user.name}
+          {blog.user.name}
         <DeleteButton />
       </Togglable>
     </div>

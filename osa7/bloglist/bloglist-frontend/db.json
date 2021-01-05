@@ -1,4 +1,30 @@
 {
-    "blogs": [{"likes":2,"title":"jajfaj","author":",kamef","url":"jnadsn.com","user":{"username":"newuser","name":"newName","id":"5fd252cfaa68b200b943dab8"},"id":"5fdab428ddbdc717378d5475"}]
+    "blogs": [{"likes":2,"title":"jajfaj","author":",kamef","url":"jnadsn.com","user":{"username":"newuser","name":"newName","id":"5fd252cfaa68b200b943dab8"},"id":"5fdab428ddbdc717378d5475"}],
+    "users": [{"blogs": [
+        "5fd6d4514af2d052147597a8",
+        "5fd6db6cb23c065302abd4bf",
+        "5fd6e173fd9dcc548b115129",
+        "5fd8bccc5f756606604961d9",
+        "5fd8d08cad243e0a05f25d14",
+        "5fd8e5673f05760db5552397",
+        "5fda1e287d81cd08423439c1",
+        "5fda1e3b7d81cd08423439c2",
+        "5fda245098afe8085c532f0d",
+        "5fda25bf05876808c404666c",
+        "5fda3e4905876808c404666d",
+        "5fdab1aa30bd1116ba7104fe",
+        "5fdab428ddbdc717378d5475",
+        "5fe12155ef243e54cf3f8f45",
+        "5ff3058b17d39033fa15732c",
+        "5ff306852599f8342ff4b0d7",
+        "5ff3069a2599f8342ff4b0d8",
+        "5ff3072e2599f8342ff4b0d9",
+        "5ff34c1b132fd73b765484bc",
+        "5ff357d13912313cbfb4874a"
+    ],
+    "username": "newuser",
+    "password": "salasana",
+    "name": "newName",
+    "id": "5fd252cfaa68b200b943dab8"
+    }]
 }
-
