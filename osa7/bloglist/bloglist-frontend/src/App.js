@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
+import styled from 'styled-components'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
+import Navbar from './components/Navbar'
 import LoginForm from './components/LoginForm'
 import BlogList from './components/BlogList'
 import BlogForm from './components/BlogForm'
@@ -16,8 +18,7 @@ import { setErrorNotification } from './reducers/errorNotificationReducer'
 import {
   Switch, Route, Link,
   useHistory,
-  useRouteMatch,
-  useParams
+  useRouteMatch
 } from "react-router-dom"
 
 
@@ -76,6 +77,11 @@ export const App = (props) => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const Page = styled.div`
+    padding: 1em;
+    background: papayawhip;
+  `
 
   const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility()
@@ -215,13 +221,12 @@ export const App = (props) => {
 
 
   return (
+    <Page>
     <div>
       <Notification />
     {user ? (
       <div>
-        <p>{user.name} logged in </p>
-        <button type="submit" onClick={handleLogOut}>logout</button>
-        {menu()}
+        <Navbar user={user} handleLogOut={handleLogOut} />
       <Switch>
           <Route path="/users">
             <Users users={users} />
@@ -243,6 +248,7 @@ export const App = (props) => {
       loginForm()
       )}
     </div>
+    </Page>
   )
 }
 
