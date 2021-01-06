@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import Togglable from './Togglable'
 
 const Blog = ({ blog, user, deleteBlog, onLike }) => {
   console.log(user)
@@ -34,21 +33,15 @@ const Blog = ({ blog, user, deleteBlog, onLike }) => {
     }
   }
 
-
   return (
     <div style={blogStyle}>
-
-      <div id="title-and-author" className="visibleWhenNotToggled">
-        {blog.title} {blog.author}
-      </div>
-      <Togglable buttonLabel="view" closingButtonLabel="hide" ref={blogRef} >
-        {blog.url}
-        <br></br>
-        likes {blog.likes} <button className="like" onClick={() => onLike(blog)}>like</button>
-        <br></br>
-          {blog.user.name}
-        <DeleteButton />
-      </Togglable>
+      <h1>{blog.title} by {blog.author}</h1> 
+      <p>Website: <a href={blog.url}>{blog.url}</a></p>
+      <br></br>
+      likes {blog.likes} <button className="like" onClick={() => onLike(blog)}>like</button>
+      <br></br>
+      <p>added by {blog.user.name}</p>
+      <DeleteButton />
     </div>
   )
 }

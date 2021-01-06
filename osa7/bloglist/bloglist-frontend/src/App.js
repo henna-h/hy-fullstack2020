@@ -2,18 +2,22 @@ import React, { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
+import BlogList from './components/BlogList'
 import BlogForm from './components/BlogForm'
 import Users from './components/Users'
+import User from './components/User'
 import Togglable from "./components/Togglable"
 import blogService from './services/blogs'
 import loginService from './services/login'
+import userService from './services/users'
 import { connect } from 'react-redux'
 import { setSuccessNotification } from './reducers/successNotificationReducer'
 import { setErrorNotification } from './reducers/errorNotificationReducer'
 import {
-  BrowserRouter as Router,
   Switch, Route, Link,
-  useHistory
+  useHistory,
+  useRouteMatch,
+  useParams
 } from "react-router-dom"
 
 
@@ -24,6 +28,39 @@ export const App = (props) => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
+  const [users, setUsers] = useState([])
+
+  useEffect(() => {
+      userService.getAll().then(users =>
+        setUsers( users )
+      )
+    }, [])
+
+  const userMatch = useRouteMatch('/users/:id')
+  const userToShow = userMatch 
+    ? users.find(u => u.id === userMatch.params.id)
+    : null
+
+  if(userMatch !== null){
+    console.log("userMatch.params.id: " + userMatch.params.id)
+  }
+  if(userToShow !==null){
+    console.log("userToShow: " + userToShow.name)
+  }
+
+  const blogMatch = useRouteMatch('/blogs/:id')
+  const blogToShow = blogMatch 
+    ? blogs.find(b => b.id === blogMatch.params.id)
+    : null
+
+  if(blogMatch !== null){
+    console.log("blogMatch.params.id: " + blogMatch.params.id)
+  }
+  if(blogToShow !==null){
+    console.log("blogToShow: " + blogToShow.title)
+  }
+
+  
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -134,7 +171,10 @@ export const App = (props) => {
     return(
       <div>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user} deleteBlog={deleteBlog} onLike={onLike} className="blog" />
+          <div>
+            <Link to={"/blog/" + blog.id} key={blog.id}>{blog.title} by {blog.author}</Link>
+            <br></br>
+          </div>
         )}
       </div>
     )
@@ -147,11 +187,23 @@ export const App = (props) => {
     </div>
   )
 
-  const users = () => (
+  const userList = () => (
     <div>
       <Users />
     </div>
   )
+
+  const userProfile = () => (
+    <div>
+      <User userToShow={userToShow}/>
+    </div>
+  )
+
+  const showBlog = () => {
+    <div>
+      <Blog blog={blogToShow} user={user} deleteBlog={deleteBlog} onLike={onLike} className="blog" />
+    </div>
+  }
 
   const deleteBlog = async (id) => {
     await blogService.remove(id)
@@ -165,21 +217,31 @@ export const App = (props) => {
   return (
     <div>
       <Notification />
-      {user === null && loginForm()}
-      {user !== null && loggedIn()}
-      {user !== null && menu()}
-
+    {user ? (
+      <div>
+        <p>{user.name} logged in </p>
+        <button type="submit" onClick={handleLogOut}>logout</button>
+        {menu()}
       <Switch>
           <Route path="/users">
-            {user !== null && users()}
+            <Users users={users} />
+          </Route>
+          <Route path="/users/:id">
+            <User user={userToShow} />
+          </Route>
+          <Route path="/blogs/:id">
+            <Blog blog={blogToShow} user={user} deleteBlog={deleteBlog} onLike={onLike} className="blog" />
           </Route>
         <Route path="/">
-        <h2>blogs</h2>
-          {user !== null && blogForm()}
-          {user !== null && bloglist()}
+          <h2>blogs</h2>
+          {blogForm()}
+          <BlogList blogs={blogs} />
         </Route>
       </Switch>
-
+      </div>
+    ) : (
+      loginForm()
+      )}
     </div>
   )
 }
