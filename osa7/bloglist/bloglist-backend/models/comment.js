@@ -1,3 +1,4 @@
+/*
 const mongoose = require('mongoose')
 
 const commentSchema = new mongoose.Schema({
@@ -17,3 +18,4 @@ commentSchema.set('toJSON', {
 })
 
 module.exports = mongoose.model('Comment', commentSchema)
+*/

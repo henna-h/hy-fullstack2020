@@ -1,8 +1,15 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
+import blogService from '../services/blogs'
 
 const Blog = ({ blog, user, deleteBlog, onLike }) => {
-  console.log(user)
-  console.log(blog)
+
+  const [newComment, setNewComment] = useState('')
+  const [blogToShow, setBlogToShow] = useState(blog)
+  console.log(newComment)
+
+  const handleCommentChange = (event) => {
+    setNewComment(event.target.value)
+  }
 
   const blogRef = useRef()
 
@@ -22,6 +29,18 @@ const Blog = ({ blog, user, deleteBlog, onLike }) => {
     }
   }
 
+  const createComment = async (event) => {
+    event.preventDefault()
+    const commentToAdd = {
+      content: newComment
+    }
+
+    const returnedBlog = await blogService.addComment(blog.id, commentToAdd)
+    setBlogToShow(returnedBlog)
+    console.log(blog.comments.map(comment => comment.content))
+    setNewComment('')
+  }
+
   const DeleteButton = () => {
     //Why can't I access user id?
     if(user.username === blog.user.username || user._id === blog.user){
@@ -32,8 +51,6 @@ const Blog = ({ blog, user, deleteBlog, onLike }) => {
       return ( null )
     }
   }
-
-  console.log("blog.comments: " + blog.comments.map(comment => comment))
 
   return (
     <div style={blogStyle}>
@@ -46,7 +63,11 @@ const Blog = ({ blog, user, deleteBlog, onLike }) => {
       <DeleteButton />
 
       <h2>Comments</h2>
-      {blog.comments.map(comment =>
+        <span>
+          <input value={newComment} onChange={handleCommentChange} />
+          <button onClick={createComment}>add a comment</button>
+        </span>
+      {blogToShow.comments.map(comment =>
         <ul key={comment.id}>
           <li>{comment.content}</li>
         </ul>
