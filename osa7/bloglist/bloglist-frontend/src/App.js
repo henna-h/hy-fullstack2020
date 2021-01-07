@@ -25,9 +25,9 @@ import {
 export const App = (props) => {
   const blogFormRef = useRef()
   const [blogs, setBlogs] = useState([])
+  const [user, setUser] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
 
   const [users, setUsers] = useState([])
 
@@ -74,6 +74,7 @@ export const App = (props) => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      console.log("user in usEffect: " + user)
       blogService.setToken(user.token)
     }
   }, [])
@@ -96,52 +97,23 @@ export const App = (props) => {
       }
   }
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
-    console.log('logging in with ', username, password)
+  const loginUser = async (username, password) => {
 
-    try {
-      const user = await loginService.login({
-        username, password,
-      })
+    const user = await loginService.login({
+      username, password,
+    })
 
-      window.localStorage.setItem(
-        'loggedBlogAppUser', JSON.stringify(user)
-      )
+    window.localStorage.setItem(
+      'loggedBlogAppUser', JSON.stringify(user)
+    )
 
-      blogService.setToken(user.token)
-      setUser(user)
-      setUsername('')
-      setPassword('')
-    } catch (exception) {
-      props.setErrorNotification('wrong username or password', 5000)
-    }
+    blogService.setToken(user.token)
+    setUser(user)
   }
 
   const handleLogOut = async (event) => {
     window.localStorage.removeItem('loggedBlogAppUser')
     setUser(null)
-  }
-
-  const loginForm = () => (
-    <div>
-      <LoginForm
-        username={username}
-        password={password}
-        handleUsernameChange={({ target }) => setUsername(target.value)}
-        handlePasswordChange={({ target }) => setPassword(target.value)}
-        handleSubmit={handleLogin}
-      />
-    </div>
-  )
-
-  const menu = () => {
-    return (
-      <div>
-        <Link to="/">blogs</Link>
-        <Link to="/users">users</Link>
-      </div>
-    )
   }
 
   const blogForm = () => (
@@ -168,47 +140,6 @@ export const App = (props) => {
 
     await blogService.update(blog.id, blogObject)
     setBlogs(blogs.map(b => b.id !== blog.id ? blogObject: b))
-  }
-
-  const bloglist = () => {
-
-    blogs.sort((a, b) => b.likes-a.likes)
-
-    return(
-      <div>
-        {blogs.map(blog =>
-          <div>
-            <Link to={"/blog/" + blog.id} key={blog.id}>{blog.title} by {blog.author}</Link>
-            <br></br>
-          </div>
-        )}
-      </div>
-    )
-  }
-
-  const loggedIn = () => (
-    <div>
-      <p>{user.name} logged in </p>
-      <button type="submit" onClick={handleLogOut}>logout</button>
-    </div>
-  )
-
-  const userList = () => (
-    <div>
-      <Users />
-    </div>
-  )
-
-  const userProfile = () => (
-    <div>
-      <User userToShow={userToShow}/>
-    </div>
-  )
-
-  const showBlog = () => {
-    <div>
-      <Blog blog={blogToShow} user={user} deleteBlog={deleteBlog} onLike={onLike} className="blog" />
-    </div>
   }
 
   const deleteBlog = async (id) => {
@@ -245,7 +176,9 @@ export const App = (props) => {
       </Switch>
       </div>
     ) : (
-      loginForm()
+      <LoginForm
+        loginUser={loginUser}
+      />
       )}
     </div>
     </Page>

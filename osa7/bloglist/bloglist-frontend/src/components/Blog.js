@@ -33,6 +33,8 @@ const Blog = ({ blog, user, deleteBlog, onLike }) => {
     }
   }
 
+  console.log("blog.comments: " + blog.comments.map(comment => comment))
+
   return (
     <div style={blogStyle}>
       <h1>{blog.title} by {blog.author}</h1> 
@@ -42,6 +44,13 @@ const Blog = ({ blog, user, deleteBlog, onLike }) => {
       <br></br>
       <p>added by {blog.user.name}</p>
       <DeleteButton />
+
+      <h2>Comments</h2>
+      {blog.comments.map(comment =>
+        <ul key={comment.id}>
+          <li>{comment.content}</li>
+        </ul>
+      )}
     </div>
   )
 }
