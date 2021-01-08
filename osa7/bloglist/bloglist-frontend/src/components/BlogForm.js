@@ -1,4 +1,18 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
+
+const Button = styled.button`
+  background: Bisque;
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid Chocolate;
+  border-radius: 3px;
+`
+
+const Input = styled.input`
+  margin: 0.25em;
+`
 
 const BlogForm =({ createBlog }) => {
 
@@ -33,15 +47,15 @@ const BlogForm =({ createBlog }) => {
   return (
     <form onSubmit={addBlog}>
       <div>
-        Title: <input id="title" value={newTitle} onChange={handleTitleChange} />
+        Title: <Input id="title" value={newTitle} onChange={handleTitleChange} />
       </div>
       <div>
-        Author: <input id="author" value={newAuthor} onChange={handleAuthorChange} />
+        Author: <Input id="author" value={newAuthor} onChange={handleAuthorChange} />
       </div>
       <div>
-        Url: <input id="url" value={newUrl} onChange={handleUrlChange} />
+        Url: <Input id="url" value={newUrl} onChange={handleUrlChange} />
       </div>
-      <button id="create-button" type="submit">create</button>
+      <Button id="create-button" type="submit">create</Button>
     </form>
   )
 

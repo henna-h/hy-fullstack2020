@@ -1,5 +1,19 @@
 import React, { useRef, useState } from 'react'
 import blogService from '../services/blogs'
+import styled from 'styled-components'
+
+const Button = styled.button`
+  background: Bisque;
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid Maroon;
+  border-radius: 3px;
+`
+
+const Input = styled.input`
+  margin: 0.25em;
+`
 
 const Blog = ({ blog, user, deleteBlog, onLike }) => {
 
@@ -64,8 +78,8 @@ const Blog = ({ blog, user, deleteBlog, onLike }) => {
 
       <h2>Comments</h2>
         <span>
-          <input value={newComment} onChange={handleCommentChange} />
-          <button onClick={createComment}>add a comment</button>
+          <Input value={newComment} onChange={handleCommentChange} />
+          <Button onClick={createComment}>add a comment</Button>
         </span>
       {blogToShow.comments.map(comment =>
         <ul key={comment.id}>

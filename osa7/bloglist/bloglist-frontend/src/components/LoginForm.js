@@ -4,6 +4,24 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { setSuccessNotification } from '../reducers/successNotificationReducer'
 import { setErrorNotification } from '../reducers/errorNotificationReducer'
+import { useHistory } from 'react-router-dom'
+
+const Button = styled.button`
+  background: Bisque;
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid Maroon;
+  border-radius: 3px;
+`
+
+const Input = styled.input`
+  margin: 0.25em;
+`
+
+const Title = styled.h1`
+  color: maroon
+`
 
 export const LoginForm = ({
   loginUser
@@ -38,12 +56,12 @@ export const LoginForm = ({
 
   return (
     <div>
-      <h2>Login</h2>
+      <Title>Login</Title>
 
       <form onSubmit={handleLogin}>
         <div>
           username
-          <input
+          <Input
             id='username'
             value={username}
             onChange={handleUsernameChange}
@@ -51,14 +69,14 @@ export const LoginForm = ({
         </div>
         <div>
           password
-          <input
+          <Input
             id='password'
             type="password"
             value={password}
             onChange={handlePasswordChange}
           />
         </div>
-        <button id="login-button" type="submit">login</button>
+        <Button id="login-button" type="submit">login</Button>
       </form>
     </div>
   )

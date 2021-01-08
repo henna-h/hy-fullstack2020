@@ -21,21 +21,29 @@ import {
   useRouteMatch
 } from "react-router-dom"
 
+const Page = styled.div`
+padding: 1em;
+background: papayawhip;
+`
+
+const Title = styled.h1`
+padding: 0.5em;
+background: papayawhip;
+`
 
 export const App = (props) => {
   const blogFormRef = useRef()
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-
   const [users, setUsers] = useState([])
 
+  const history = useHistory()
+
   useEffect(() => {
-      userService.getAll().then(users =>
-        setUsers( users )
-      )
-    }, [])
+    userService.getAll().then(users =>
+      setUsers( users )
+    )
+  }, [])
 
   const userMatch = useRouteMatch('/users/:id')
   const userToShow = userMatch 
@@ -79,11 +87,6 @@ export const App = (props) => {
     }
   }, [])
 
-  const Page = styled.div`
-    padding: 1em;
-    background: papayawhip;
-  `
-
   const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility()
     blogService
@@ -109,6 +112,7 @@ export const App = (props) => {
 
     blogService.setToken(user.token)
     setUser(user)
+    history.push('/')
   }
 
   const handleLogOut = async (event) => {
@@ -153,23 +157,22 @@ export const App = (props) => {
 
   return (
     <Page>
-    <div>
       <Notification />
     {user ? (
       <div>
         <Navbar user={user} handleLogOut={handleLogOut} />
       <Switch>
-          <Route path="/users">
-            <Users users={users} />
-          </Route>
           <Route path="/users/:id">
             <User user={userToShow} />
+          </Route>
+          <Route path="/users">
+            <Users users={users} />
           </Route>
           <Route path="/blogs/:id">
             <Blog blog={blogToShow} user={user} deleteBlog={deleteBlog} onLike={onLike} className="blog" />
           </Route>
         <Route path="/">
-          <h2>blogs</h2>
+          <Title>blogs</Title>
           {blogForm()}
           <BlogList blogs={blogs} />
         </Route>
@@ -180,7 +183,6 @@ export const App = (props) => {
         loginUser={loginUser}
       />
       )}
-    </div>
     </Page>
   )
 }

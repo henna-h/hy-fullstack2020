@@ -5,14 +5,14 @@ import './index.css'
 import App from './App'
 import store from './store.js'
 import {
-  BrowserRouter as HashRouter
+  BrowserRouter as Router
 } from "react-router-dom"
 
 ReactDOM.render(
   <Provider store={store}>
-    <HashRouter>
+    <Router>
       <App />
-    </HashRouter>
+    </Router>
   </Provider>,
   document.getElementById('root')
 )
