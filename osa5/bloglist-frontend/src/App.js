@@ -32,23 +32,22 @@ const App = () => {
     }
   }, [])
 
-  const addBlog = (blogObject) => {
+  const addBlog = async (blogObject) => {
     blogFormRef.current.toggleVisibility()
-    blogService
-      .create(blogObject)
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-        setMessage('New blog added: ' + returnedBlog.title + ' by ' + returnedBlog.author)
-        setTimeout(() => {
-          setMessage(null)
-        }, 5000)
-      })
-      .catch = () => {
-        setErrorMessage('something went wrong')
-        setTimeout(() => {
-          setErrorMessage(null)
-        }, 5000)
-      }
+
+    try{
+      await blogService.create(blogObject)
+      setBlogs(blogs.concat(blogObject))
+      setMessage('New blog added: ' + blogObject.title + ' by ' + blogObject.author)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    } catch {
+      setErrorMessage('something went wrong')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
   }
 
   const handleLogin = async (event) => {

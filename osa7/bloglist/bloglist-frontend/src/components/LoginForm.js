@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { setSuccessNotification } from '../reducers/successNotificationReducer'
 import { setErrorNotification } from '../reducers/errorNotificationReducer'
-import { useHistory } from 'react-router-dom'
 
 const Button = styled.button`
   background: Bisque;

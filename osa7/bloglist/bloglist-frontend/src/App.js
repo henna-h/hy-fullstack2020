@@ -69,8 +69,6 @@ export const App = (props) => {
     console.log("blogToShow: " + blogToShow.title)
   }
 
-  
-
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
