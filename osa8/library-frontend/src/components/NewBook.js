@@ -23,13 +23,22 @@ const NewBook = (props) => {
 
     console.log('add book...')
 
-    createBook({  variables: { title, author, published, genres } })
+    try{
+      await createBook({  variables: { title, author, published, genres } })
 
-    setTitle('')
-    setPublished('')
-    setAuhtor('')
-    setGenres([])
-    setGenre('')
+      setTitle('')
+      setPublished('')
+      setAuhtor('')
+      setGenres([])
+      setGenre('')
+      props.setPage('books')
+
+    } catch (error) {
+      props.setErrorNotification("The title must be at least 2 characters long and author's name must be at least 4 characters long")
+      setTimeout(() => {
+        props.setErrorNotification(null)
+      }, 5000)
+    }
   }
 
   const addGenre = () => {

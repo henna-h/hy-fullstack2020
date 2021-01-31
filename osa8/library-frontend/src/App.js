@@ -5,6 +5,7 @@ import NewBook from './components/NewBook'
 
 const App = () => {
   const [page, setPage] = useState('authors')
+  const [errorNotification, setErrorNotification] = useState(null)
 
   return (
     <div>
@@ -13,6 +14,8 @@ const App = () => {
         <button onClick={() => setPage('books')}>books</button>
         <button onClick={() => setPage('add')}>add book</button>
       </div>
+
+      <h2>{errorNotification}</h2>
 
       <Authors
         show={page === 'authors'}
@@ -24,6 +27,8 @@ const App = () => {
 
       <NewBook
         show={page === 'add'}
+        setErrorNotification={setErrorNotification}
+        setPage={setPage}
       />
 
     </div>
