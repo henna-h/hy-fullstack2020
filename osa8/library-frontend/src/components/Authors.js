@@ -14,8 +14,6 @@ const Authors = (props) => {
     refetchQueries: [ { query: ALL_AUTHORS } ]
   })
 
-  console.log(result)
-
   if (!props.show) {
     return null
   }
@@ -30,6 +28,7 @@ const Authors = (props) => {
     console.log('edit author...')
 
     editAuthor({  variables: { name, born } })
+    console.log(name + ", " + born)
 
     setName('')
     setBorn('')
@@ -66,7 +65,7 @@ const Authors = (props) => {
           name
           <select value={name} onChange={({ target }) => setName(target.value)}>
             {authors.map(a => 
-              <option key={a.name}>{a.name}</option>
+              <option key={a.name} value={a.name}>{a.name}</option>
             )}
           </select>
         </div>
