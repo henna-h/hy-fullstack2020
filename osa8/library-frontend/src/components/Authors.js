@@ -21,6 +21,7 @@ const Authors = (props) => {
   if (result.loading)  {
     return <div>loading...</div>
   }
+  
 
   const submit = async (event) => {
     event.preventDefault()
@@ -64,6 +65,7 @@ const Authors = (props) => {
         <div>
           name
           <select value={name} onChange={({ target }) => setName(target.value)}>
+          <option >name of author</option>
             {authors.map(a => 
               <option key={a.name} value={a.name}>{a.name}</option>
             )}
