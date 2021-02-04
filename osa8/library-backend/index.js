@@ -109,17 +109,16 @@ const resolvers = {
     
     },
     allAuthors: async (root) => { 
-      return await Author.find({})
+      return await Author.find({}).populate('books')
     },
     me: (root, args, context) => {
       return context.currentUser
     }
   },
   Author: {
-    bookCount: async (args) => {
-      const author = await Author.findOne({name: args.name})
+    bookCount:  async (root, args) => {
 
-      const bookCount = await Book.find({author: author.id}).length
+      const bookCount = root.books.length
       return bookCount
     }
   },
@@ -136,19 +135,15 @@ const resolvers = {
         author = new Author({ "name": args.author, "id": uuidv1() })
         console.log("AUTHOR: " + author)
 
-        try {
-          const newAuthor = await author.save()
-        } catch(error) {
-          throw new UserInputError(error.message, {
-            invalidArgs: args,
-          })
-        }
       } 
 
       const book = new Book({ title: args.title, published: args.published, genres: args.genres, author: author, id: uuidv1()})
 
+      author.books = author.books.concat(book.id)
+
       try {
-        const newBook = await book.save()
+        await book.save()
+        await author.save()
       } catch(error) {
         throw new UserInputError(error.message, {
           invalidArgs: args,
