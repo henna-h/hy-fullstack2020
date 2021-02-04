@@ -34,9 +34,9 @@ const NewBook = (props) => {
       props.setPage('books')
 
     } catch (error) {
-      props.setErrorNotification("The title must be at least 2 characters long and author's name must be at least 4 characters long")
+      props.setNotification("The title must be at least 2 characters long and author's name must be at least 4 characters long")
       setTimeout(() => {
-        props.setErrorNotification(null)
+        props.setNotification(null)
       }, 5000)
     }
   }

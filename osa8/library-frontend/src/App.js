@@ -1,18 +1,29 @@
 import React, { useState } from 'react'
-import { useApolloClient, useQuery } from '@apollo/client'
+import { useApolloClient, useQuery, useSubscription } from '@apollo/client'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import Recommendations from './components/Recommendations'
 import NewBook from './components/NewBook'
 import LoginForm from './components/LoginForm'
-import { USER } from './queries'
+import { USER, BOOK_ADDED } from './queries'
 
 const App = () => {
   const [token, setToken] = useState(null)
   const [page, setPage] = useState('authors')
-  const [errorNotification, setErrorNotification] = useState(null)
+  const [notification, setNotification] = useState(null)
   const client = useApolloClient()
   const user = useQuery(USER)
+
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      console.log(subscriptionData)
+      const addedBook = subscriptionData.data.bookAdded
+      setNotification("New book, " + addedBook.title + ", added")
+      setTimeout(() => {
+        setNotification(null)
+      }, 5000)
+    }
+  })
 
   if (!token) {
     return (
@@ -44,7 +55,7 @@ const App = () => {
         <button onClick={() => logout()}>log out</button>
       </div>
 
-      <h2>{errorNotification}</h2>
+      <h2>{notification}</h2>
 
       <Recommendations
         show={page === 'recommendations'}
@@ -61,7 +72,7 @@ const App = () => {
 
       <NewBook
         show={page === 'add'}
-        setErrorNotification={setErrorNotification}
+        setNotification={setNotification}
         setPage={setPage}
       />
 
