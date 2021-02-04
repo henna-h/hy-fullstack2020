@@ -10,6 +10,7 @@ export const ALL_BOOKS = gql`
         id
       }
       published
+      genres
       id
     }
   }
@@ -67,6 +68,16 @@ export const EDIT_AUTHOR = gql`
       id
     }
   }
+`
+
+export const USER = gql`
+  query{
+    me {
+      username
+      favoriteGenre
+    }
+  }
+
 `
 
 export const LOGIN = gql`
